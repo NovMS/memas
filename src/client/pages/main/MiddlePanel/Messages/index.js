@@ -39,12 +39,12 @@ function Messages(props) {
     const [open, setOpen] = React.useState(true);
     const [filter, setFilter] = useState('');
     const active = user;
-    if(channels[active_chat_id]){
-        messages = channels[active_chat_id];
-    }
-    if(users[active_chat_id]){
-        messages = users[active_chat_id];
-    }
+    //if(channels[active_chat_id]){
+    //    messages = channels[active_chat_id];
+    //}
+    //if(users[active_chat_id]){
+    //    messages = users[active_chat_id];
+    // }
     const classes = useStyles();
     const now = moment();
     const yesterday = moment().subtract(1, "days");

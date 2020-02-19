@@ -17,6 +17,7 @@ import data from './data.js';
 
 const store = createStore(reducer, {data: data, state: {right_panel_mode: 'direct', active_users: new Set()}});
 
+
 ReactDOM.render(
     <Provider store={store}>
         <Catch>

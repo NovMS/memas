@@ -7,63 +7,89 @@ export default {
     },    
     channels: {
         /* id канала = id пользователя + порядковый номер канала, созданный этим пользователем*/
+        // Struct Channel
+        //   
+        //  id 
+        //  name - our name, nothink more
+        //  isImportant
+        //  isMembers
+        //  isTimeUpdate
+        //  is_showed - use when we want show child, now it impprtant without this not, work
+        //  parent_id - use when we want know who parent
+        //
+        //  Start Channel
+        //
+        //  Important :::  NEW CHANNEL MUST ADD UNDER OLD CHANNEL
+        //  Important :::  CHILD MUST BE UNDER HIS FATHER ( we can ignore this rule, but it overload our interface)
+        //  Hint      :::  Rule always work if we add channel using only interface
+        //
         "11_3": {
             id: "11_3",
-            name: "Главный канал",
+            name: "Top Channel",
             // для новых непрочитанных сообщений отправляем уведомление на почту
             isImportant: true,
             members: ["11", "21", "34"],
             "updated_at": "2019-12-01T12:00:00",
-            messages: [
-                {
-                    /* id сообщения глобальный для пользователя*/
-                    id: "11_5345",
-                    text: "сообщение 5345 является первым",
-                    created_at: "2019-12-01T11:01:00"
-                },
-                {
-                    id: "11_5346",
-                    text: "тут не поспоришь",
-                    created_at: "2019-12-01T11:02:00",
-                    quote_text: "является первым",
-                    parent_id: "5345"
-                },
-                {
-                    id: "21_1004",
-                    text: "редактированное сообщение 1004",
-                    created_at: "2019-12-01T11:03:34",
-                    edited_at: "2019-12-01T11:05:23",
-                    initial_text: "сообщение 1004"
-                }
-            ],
-            is_showed: false,
             channel_ids: ["21_6", "34_2"]
         },
         "21_6": {
             id: "21_6",
             name: "Подканал 1",
-            messages: [],
             members: ["21", "55"],
             "updated_at": "2019-12-03T12:00:00",
             parent_id: "11_3"
+        },
+        "21_9": {
+            id: "21_9",
+            name: "SomeBody",
+            members: ["21", "55"],
+            "updated_at": "2019-12-03T12:00:00",
+            parent_id: "21_6"
         },
         "34_2": {
             id: "34_2",
             name: "Подканал 2",
             isImportant: true,
             members: ["34"],
-            messages: [],
             "updated_at": "2019-12-02T12:00:00",
             parent_id: "11_3"
+        },
+        "77_7": {
+            id: "77_7",
+            name: "Under2",
+            isImportant: true,
+            members: ["34"],
+            "updated_at": "2019-12-02T12:00:00",
+            parent_id: "21_4"
         },
         "21_5": {
             id: "21_5",
             name: "Random",
             members: ["11", "21"],
-            messages: [],
+            "updated_at": "2019-12-01T12:00:00"
+        },
+        "77_8": {
+            id: "77_8",
+            name: "Under1",
+            isImportant: true,
+            members: ["34"],
+            "updated_at": "2019-12-02T12:00:00",
+            parent_id: "21_4"
+        },
+        "21_4": {
+            id: "21_4",
+            name: "New",
+            members: ["11", "21"],
+            "updated_at": "2019-12-01T12:00:00"
+        },
+        "21_2": {
+            id: "21_2",
+            name: "Lost",
+            members: ["11", "21"],
             "updated_at": "2019-12-01T12:00:00"
         }
     },
+    //End Channel
     "profile": {
         id: "11",
         name: "Вася Пупкин",

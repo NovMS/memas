@@ -2,25 +2,24 @@ export default (store, action) => {
 
   switch (action.type) {
     case 'showChannel':
-      return {
-        ...store.data,
-        channels:{
-            ... store.data.channels,
-            [action.channel_id]: {
-                ... store.data.channels[action.channel_id],
-                is_showed: true
+        if ( action.option_type === 1){ store.data.channels[action.channel_id].is_showedALL=true; }
+        if ( action.option_type === 2){ store.data.channels[action.channel_id].is_showedA=true; }
+        if ( action.option_type === 3){ store.data.channels[action.channel_id].is_showedB=true; }
+        if ( action.option_type === 4){ store.data.channels[action.channel_id].is_showedC=true; }
+      return {...store.data,
+            channels:{
+                ...store.data.channels,
             }
-        }
       };
     case 'hideChannel':
+        if ( action.option_type === 1){ store.data.channels[action.channel_id].is_showedALL=false; }
+        if ( action.option_type === 2){ store.data.channels[action.channel_id].is_showedA=false; }
+        if ( action.option_type === 3){ store.data.channels[action.channel_id].is_showedB=false; }
+        if ( action.option_type === 4){ store.data.channels[action.channel_id].is_showedC=false; }
       return {
         ...store.data,
         channels:{
             ... store.data.channels,
-            [action.channel_id]: {
-                ... store.data.channels[action.channel_id],
-                is_showed: false
-            }
         }
       };  
     case 'addChannel':
@@ -28,6 +27,7 @@ export default (store, action) => {
         const storeData = {
             ...store.data,
             channels:{
+                ... store.data.channels,
                 [id]: {
                     id: id,
                     name: action.name,
@@ -35,7 +35,6 @@ export default (store, action) => {
                     messages: [],
                     updated_at: action.created_at,
                 },
-                ... store.data.channels
             },
             user:{
                 ... store.data.user,

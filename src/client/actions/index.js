@@ -1,6 +1,7 @@
-export const selectActiveChatId = (chat_id) => ({
+export const selectActiveChatId = (chat_id,option) => ({
         type: "selectActiveChatId",
-        chat_id: chat_id
+        chat_id: chat_id,
+        option_type: option
 });
 export const activateUser = (user_id) => ({
         type: "activateUser",
@@ -10,13 +11,15 @@ export const deactivateUser = (user_id) => ({
         type: "deactivateUser",
         user_id: user_id
 });
-export const showChannel = (channel_id) => ({
+export const showChannel = (channel_id,option) => ({
         type: "showChannel",
-        channel_id: channel_id
+        channel_id: channel_id,
+        option_type: option
 });
-export const hideChannel = (channel_id) => ({
+export const hideChannel = (channel_id,option) => ({
         type: "hideChannel",
-        channel_id: channel_id
+        channel_id: channel_id,
+        option_type: option
 });
 export const addChannel = (name, parent_id, created_at) => ({
         type: "addChannel",

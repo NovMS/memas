@@ -2,7 +2,6 @@ export default (store, action) => {
 
 
     switch (action.type) {
-
         case 'selectActiveChatId':
             return {
                 ...store.state,
