@@ -1,6 +1,6 @@
 export default (store, action) => {
 
-  switch (action.type) {
+    switch (action.type) {
     case 'showChannel':
         if ( action.option_type === 1){ store.data.channels[action.channel_id].is_showedALL=true; }
         if ( action.option_type === 2){ store.data.channels[action.channel_id].is_showedA=true; }
@@ -11,6 +11,24 @@ export default (store, action) => {
                 ...store.data.channels,
             }
       };
+        case 'addMessage':
+            const new_id = store.data.user.id + "." + action.id;
+            console.log(action.id);
+            const new_storeData = {
+                ...store.data,
+                message:{
+                    ...store.data.message,
+                    [new_id]:{
+                        id: new_id,
+                        channel_id : store.state.active_chat_id,
+                        user_id    : store.data.user.id,
+                        date_time  : Date.now(),
+                        text       : action.text,
+                    }
+                }
+            }
+        return new_storeData;
+
     case 'hideChannel':
         if ( action.option_type === 1){ store.data.channels[action.channel_id].is_showedALL=false; }
         if ( action.option_type === 2){ store.data.channels[action.channel_id].is_showedA=false; }

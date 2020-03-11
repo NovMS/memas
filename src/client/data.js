@@ -1,4 +1,36 @@
 export default {
+
+    //  ***   Message Struct Begin
+    //  *
+    //  *   message_id
+    //  *   channel_id
+    //  *   answer_to_id
+    //  *   user_id
+    //  *   date_time
+    //  *   text
+    //  *
+    //  ***   Message Struct End
+
+
+    message:{
+        "1.0.1" : {
+            id : "1.0.1",
+            channel_id : "11_3",
+            user_id    : "11",
+            date_time  : "1999-11-18T00:00:00",
+            text       : "NikiTa Lox"
+        },
+        "1.0.2" : {
+            id : "1.0.2",
+            answer_to_id : "1.0.1",
+            channel_id : "11_3",
+            user_id    : "11",
+            date_time  : "1999-11-18T00:00:00",
+            text       : "NikiTa Double Lox"
+        },
+
+    },
+
     user: {
         id: '11',
         name: 'Main User',
@@ -41,7 +73,7 @@ export default {
         },
         "21_9": {
             id: "21_9",
-            name: "SomeBody",
+            name: "SOmeNAme",
             members: ["21", "55"],
             "updated_at": "2019-12-03T12:00:00",
             parent_id: "21_6"

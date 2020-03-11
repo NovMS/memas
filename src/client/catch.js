@@ -15,7 +15,7 @@ export default class Catch extends Component {
     render() {
     if (this.state.hasError) {
         //Добавить нормальную обработку ошибок
-        return <div>Error!</div>;
+        return <div>Error! </div>;
     }
 
     return this.props.children;

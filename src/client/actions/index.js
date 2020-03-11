@@ -42,8 +42,8 @@ export const removeChannelMember = (id, user_id) => ({
         user_id: user_id,
         id: id
 });
-export const addChannelMessage = (id, text) => ({
-        type: "addChannelMessage",
+export const addMessage = (id, text) => ({
+        type: "addMessage",
         text: text,
         id: id
 });
