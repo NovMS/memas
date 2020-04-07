@@ -6,29 +6,32 @@ export default {
     //  *   channel_id
     //  *   answer_to_id
     //  *   user_id
-    //  *   date_time
+    //  *   date
+    //  *   time
+    //  *   Avatar url;
     //  *   text
     //  *
     //  ***   Message Struct End
-
 
     message:{
         "1.0.1" : {
             id : "1.0.1",
             channel_id : "11_3",
             user_id    : "11",
-            date_time  : "1999-11-18T00:00:00",
-            text       : "NikiTa Lox"
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time  : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "some text",
+
         },
         "1.0.2" : {
             id : "1.0.2",
             answer_to_id : "1.0.1",
             channel_id : "11_3",
             user_id    : "11",
-            date_time  : "1999-11-18T00:00:00",
-            text       : "NikiTa Double Lox"
-        },
-
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "double some text"
+        }
     },
 
     user: {

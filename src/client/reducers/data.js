@@ -13,7 +13,8 @@ export default (store, action) => {
       };
         case 'addMessage':
             const new_id = store.data.user.id + "." + action.id;
-            console.log(action.id);
+            //console.log(action.id);
+            let today = new Date();
             const new_storeData = {
                 ...store.data,
                 message:{
@@ -22,7 +23,8 @@ export default (store, action) => {
                         id: new_id,
                         channel_id : store.state.active_chat_id,
                         user_id    : store.data.user.id,
-                        date_time  : Date.now(),
+                        date : { "d": today.getDate(), "m" : (today.getMonth() + 1), "y" : today.getFullYear() },
+                        time : { "h" : today.getHours(), "m" : today.getMinutes(), "s":today.getSeconds()} ,
                         text       : action.text,
                     }
                 }

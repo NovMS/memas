@@ -8,12 +8,11 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import Catch from './catch';
 import Main from './pages/main';
-
 import reducer from './reducers';
-import data from './data.js';
+import data from './data/data.js';
+import mess from './data/mess.js';
 
 const store = createStore(reducer, {data: data, state: {right_panel_mode: 'direct', active_users: new Set()}});
 
