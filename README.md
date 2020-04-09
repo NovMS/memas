@@ -6,7 +6,7 @@ npm run-script dev
 
 ### Чудо-скрипты
 > **npm run-script init-db** - создать или пересоздать таблицы в базе данных  
-**npm run-script test-db** - делает понятно что. Перед использоанием нужно очистить базу данных при помощи *init-db*  
+**npm run-script test-db** - делает понятно что. Перед использованием нужно очистить базу данных при помощи *init-db*  
 
 ### Схема базы данных
 доступна по ссылке: https://drive.google.com/file/d/15Ggvir42GD__oo09n-PDPgjKMmBzuveF/view?usp=sharing  
@@ -17,4 +17,4 @@ npm run-script dev
 
 ### API для работы с сервером
 
-Опишу потом, но примеры можно посмотреть в **tests/db/**
+[Описаны здесь](docs/server-api.md)
