@@ -7,17 +7,17 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE channels (
     id          BIGSERIAL  PRIMARY KEY,
     name        TEXT       NOT NULL,
-    parent_channel_id   BIGINT     DEFAULT NULL
-                        CHECK (parent_channel_id IS NULL OR parent_channel_id > 0)
+    parent_id   BIGINT     DEFAULT NULL
+                        CHECK (parent_id IS NULL OR parent_id > 0)
     -- _EncKey_parent      BYTEA   DEFAULT NULL,
     -- CHECK (
-    --     (parent_channel_id IS NULL
+    --     (parent_id IS NULL
     --         AND _EncKey_parent IS NULL
     --     )
     --     OR
-    --     (parent_channel_id IS NOT NULL
+    --     (parent_id IS NOT NULL
     --         AND _EncKey_parent IS NOT NULL
-    --         AND parent_channel_id > 0
+    --         AND parent_id > 0
     --     )
     -- )
 );

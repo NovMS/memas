@@ -22,9 +22,10 @@ module.exports = function(app) {
     app.post('/api/channels', async (req, res) => {
         try {
             let name = req.body.name;
+			let parent_id = req.body.parent_id || "DEFAULT";
             const { rows } = await client.query(`
-                INSERT INTO channels (id, name, parent_channel_id)
-                    VALUES(DEFAULT, '${name}', DEFAULT)
+                INSERT INTO channels (id, name, parent_id)
+                    VALUES(DEFAULT, '${name}', ${parent_id})
             `);
             // res.send(rows);
             console.log("\ncreated channel " + name);
@@ -35,12 +36,26 @@ module.exports = function(app) {
         }
     });
 
-    app.get('/api/channels', async (req, res) => {
+	app.get('/api/channels/', async (req, res) => {
         try {
             const { rows } = await client.query(`
                 SELECT * FROM channels
             `);
             res.send(rows);
+        } catch(err) {
+          console.log(err.stack)
+          res.send("Error");
+        }
+    });
+
+
+    app.get('/api/channels/:channelId', async (req, res) => {
+        try {
+        	let channel_id = req.params.channelId;
+            const { rows } = await client.query(`
+                SELECT * FROM channels WHERE id=${channel_id}
+            `);
+            res.send(rows[0]);
         } catch(err) {
           console.log(err.stack)
           res.send("Error");
