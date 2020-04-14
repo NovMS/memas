@@ -7,8 +7,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE channels (
     id          BIGSERIAL  PRIMARY KEY,
     name        TEXT       NOT NULL,
-    parent_id   BIGINT     DEFAULT NULL
-                        CHECK (parent_id IS NULL OR parent_id > 0)
+    parent_id   BIGINT     DEFAULT NULL CHECK (parent_id IS NULL OR parent_id >= 1)
     -- _EncKey_parent      BYTEA   DEFAULT NULL,
     -- CHECK (
     --     (parent_id IS NULL
@@ -23,13 +22,14 @@ CREATE TABLE channels (
 );
 
 CREATE TABLE users (
-    id         BIGSERIAL    PRIMARY KEY,
-    email           TEXT    NOT NULL UNIQUE,
+    id         	BIGSERIAL    PRIMARY KEY,
+    email       TEXT    NOT NULL UNIQUE,
     -- email_pass_hash BYTEA   NOT NULL,
     -- PubKey          BYTEA   NOT NULL UNIQUE,
     -- _PrivKey        BYTEA   NOT NULL,
-    name       TEXT    NOT NULL,
-    surname    TEXT    NOT NULL
+    name       	TEXT    NOT NULL,
+    surname    	TEXT    NOT NULL,
+	avatar_url  	TEXT
 );
 
 CREATE TABLE user_in_channel (
@@ -44,8 +44,8 @@ CREATE TABLE user_in_channel (
 CREATE TABLE messages (
     id              BIGSERIAL NOT NULL UNIQUE,
     channel_id      INT     NOT NULL        REFERENCES channels(id),
+	user_id         BIGINT  NOT NULL,
     answer_to_id    INT     DEFAULT NULL    REFERENCES messages(id),
-    user_id         BIGINT  NOT NULL,
     date_time       TIMESTAMP  NOT NULL DEFAULT current_timestamp,
     _text   TEXT   NOT NULL,
     PRIMARY KEY (id, channel_id)
