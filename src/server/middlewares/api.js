@@ -22,21 +22,20 @@ module.exports = function(app) {
     app.post('/api/channels', async (req, res) => {
         try {
             let name = req.body.name;
-			let parent_id = req.body.parent_id || "DEFAULT";
-            const { rows } = await client.query(`
+            let parent_id = req.body.parent_id || "DEFAULT";
+            await client.query(`
                 INSERT INTO channels (id, name, parent_id)
                     VALUES(DEFAULT, '${name}', ${parent_id})
             `);
-            // res.send(rows);
             console.log("\ncreated channel " + name);
             res.send("\nchannel created\n");
         } catch(err) {
-          console.log(err.stack);
-          res.send("Error");
+            console.log(err.stack);
+            res.send("Error");
         }
     });
 
-	app.get('/api/channels/', async (req, res) => {
+    app.get('/api/channels/', async (req, res) => {
         try {
             const { rows } = await client.query(`
                 SELECT * FROM channels
@@ -51,7 +50,7 @@ module.exports = function(app) {
 
     app.get('/api/channels/:channelId', async (req, res) => {
         try {
-        	let channel_id = req.params.channelId;
+            let channel_id = req.params.channelId;
             const { rows } = await client.query(`
                 SELECT * FROM channels WHERE id=${channel_id}
             `);
@@ -70,7 +69,7 @@ module.exports = function(app) {
             let user_id = req.body.user_id;
             let _text = req.body._text;
 
-            const { rows } = await client.query(`
+            await client.query(`
                 INSERT INTO messages(id, channel_id, answer_to_id, user_id,
                                      date_time, _text)
                     VALUES(DEFAULT, ${channel_id}, ${answer_to_id}, ${user_id},
@@ -78,7 +77,6 @@ module.exports = function(app) {
             `);
             console.log("message posted to channel " + channel_id);
             res.send("\nmessage posted\n");
-            // res.send(rows);
         } catch(err) {
           console.log(err.stack)
           res.send("Error");
@@ -105,7 +103,7 @@ module.exports = function(app) {
             let surname=req.body.surname;
             let avatar_url=req.body.avatar_url;
 
-            const { rows } = await client.query(`
+            await client.query(`
                 INSERT INTO users (id, email, name, surname, avatar_url)
                     VALUES(DEFAULT, '${email}', '${name}', '${surname}', '${avatar_url}')
             `);
@@ -150,13 +148,12 @@ module.exports = function(app) {
             let user_id = req.params.userId;
             let preferences = (req.body.preferences)? "'"+req.body.preferences+"'": "DEFAULT";
 
-            const { rows } = await client.query(`
+            await client.query(`
                 INSERT INTO user_in_channel (user_id, channel_id, preferences)
                     VALUES(${user_id}, ${channel_id}, ${preferences})
             `);
             console.log(`user with id=${user_id} added to channel with id=${channel_id}`);
             res.send(`\nuser with id=${user_id} added to channel with id=${channel_id}\n`);
-            // res.send(rows);
         } catch(err) {
           console.log(err.stack)
           res.send("Error");
@@ -193,52 +190,52 @@ module.exports = function(app) {
         }
     });
 
-	// badapi
+    // badapi
 
-	app.get('/badapi/users/:userId/channels/', async (req, res) => {
-		try {
-			let user_id = req.params.userId;
-			let { rows: channels }  = await client.query(`
-				SELECT c.*, uic.preferences
-					FROM user_in_channel uic INNER JOIN channels c
-					  	ON (uic.channel_id = c.id) WHERE user_id=${user_id}
-			`);
+    app.get('/badapi/users/:userId/channels/', async (req, res) => {
+        try {
+            let user_id = req.params.userId;
+            let { rows: channels }  = await client.query(`
+                SELECT c.*, uic.preferences
+                    FROM user_in_channel uic INNER JOIN channels c
+                        ON (uic.channel_id = c.id) WHERE user_id=${user_id}
+            `);
 
-			let ret = {};
-			for (let i = 0; i < channels.length; i++)
-			{
-				let x = channels[i];
-				let { rows: members } = await client.query(`
-					SELECT users.* FROM user_in_channel uic INNER JOIN users
-						ON (uic.user_id = users.id) WHERE channel_id=${x.id}
-				`);
-				x.members = members;
-				let { rows: subchannel_ids } = await client.query(`
-					SELECT id FROM channels
-						WHERE parent_id=${x.id}
-				`);
-				x.subchannel_ids = [];
-				subchannel_ids.forEach(s => x.subchannel_ids.push(s.id));
+            let ret = {};
+            for (let i = 0; i < channels.length; i++)
+            {
+                let x = channels[i];
+                let { rows: members } = await client.query(`
+                    SELECT users.* FROM user_in_channel uic INNER JOIN users
+                        ON (uic.user_id = users.id) WHERE channel_id=${x.id}
+                `);
+                x.members = members;
+                let { rows: subchannel_ids } = await client.query(`
+                    SELECT id FROM channels
+                        WHERE parent_id=${x.id}
+                `);
+                x.subchannel_ids = [];
+                subchannel_ids.forEach(s => x.subchannel_ids.push(s.id));
 
-				ret[`${x.id}`] = x;
-			};
-			console.log(`requested badapi for channels`);
+                ret[`${x.id}`] = x;
+            };
+            console.log(`requested badapi for channels`);
 
-			res.send(ret);
-		} catch(err) {
-		  console.log(err.stack);
-		  res.send("Error");
-		}
-	});
+            res.send(ret);
+        } catch(err) {
+          console.log(err.stack);
+          res.send("Error");
+        }
+    });
 
-	app.get('/badapi/channels/:channelId/messages', async (req, res) => {
+    app.get('/badapi/channels/:channelId/messages', async (req, res) => {
         try {
             const { rows: messages } = await client.query(`
                 SELECT * FROM messages WHERE channel_id=${req.params.channelId}
             `);
 
-			let ret = {};
-			messages.forEach(x => ret[`${x.id}`] = x);
+            let ret = {};
+            messages.forEach(x => ret[`${x.id}`] = x);
 
             res.send(ret);
         } catch(err) {
