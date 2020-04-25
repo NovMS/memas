@@ -5,17 +5,17 @@ DROP TABLE IF EXISTS channels;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE channels (
-    id          BIGSERIAL  PRIMARY KEY,
-    name        TEXT       NOT NULL,
-    parent_id   BIGINT     DEFAULT NULL CHECK (parent_id IS NULL OR parent_id >= 1)
-    -- _EncKey_parent      BYTEA   DEFAULT NULL,
+    id              BIGSERIAL  PRIMARY KEY,
+    name            TEXT       NOT NULL,
+    parent_id       BIGINT     DEFAULT NULL CHECK (parent_id IS NULL OR parent_id >= 1),
+    _enckey_parent  JSON       DEFAULT NULL
     -- CHECK (
     --     (parent_id IS NULL
-    --         AND _EncKey_parent IS NULL
+    --         AND _enckey_parent IS NULL
     --     )
     --     OR
     --     (parent_id IS NOT NULL
-    --         AND _EncKey_parent IS NOT NULL
+    --         AND _enckey_parent IS NOT NULL
     --         AND parent_id > 0
     --     )
     -- )
@@ -36,7 +36,7 @@ CREATE TABLE user_in_channel (
     user_id         BIGINT  NOT NULL    REFERENCES users(id)    ON DELETE CASCADE,
     channel_id      INT     NOT NULL    REFERENCES channels(id) ON DELETE CASCADE,
     -- user_role       INT     NOT NULL,  -- каждое право пользователя определяется битом в инте
-    -- _EncKey_user    BYTEA   NOT NULL,
+    -- _enckey_user    BYTEA   NOT NULL,
     preferences     JSON    DEFAULT NULL,
     PRIMARY KEY (user_id, channel_id)
 );

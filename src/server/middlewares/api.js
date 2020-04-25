@@ -23,9 +23,13 @@ module.exports = function(app) {
         try {
             let name = req.body.name;
             let parent_id = req.body.parent_id || "DEFAULT";
+            let _enckey_parent = req.body._enckey_parent;
+            _enckey_parent = (_enckey_parent) ?
+                             "'" + JSON.stringify(_enckey_parent) + "'" : null;
+            console.log(_enckey_parent);
             await client.query(`
-                INSERT INTO channels (id, name, parent_id)
-                    VALUES(DEFAULT, '${name}', ${parent_id})
+                INSERT INTO channels (id, name, parent_id, _enckey_parent)
+                    VALUES(DEFAULT, '${name}', ${parent_id}, ${_enckey_parent})
             `);
             console.log("\ncreated channel " + name);
             res.send("\nchannel created\n");
