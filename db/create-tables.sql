@@ -24,20 +24,20 @@ CREATE TABLE channels (
 CREATE TABLE users (
     id         	BIGSERIAL    PRIMARY KEY,
     email       TEXT    NOT NULL UNIQUE,
-    -- email_pass_hash BYTEA   NOT NULL,
-    -- PubKey          BYTEA   NOT NULL UNIQUE,
-    -- _PrivKey        BYTEA   NOT NULL,
-    name       	TEXT    NOT NULL,
-    surname    	TEXT    NOT NULL,
+    name       	    TEXT    NOT NULL,
+    surname    	    TEXT    NOT NULL,
+    -- email_pass_hash BYTEA, -- NOT NULL,
+    pubkey          BYTEA, -- NOT NULL UNIQUE
+    _privkey        BYTEA, -- NOT NULL
 	avatar_url  	TEXT
 );
 
 CREATE TABLE user_in_channel (
     user_id         BIGINT  NOT NULL    REFERENCES users(id)    ON DELETE CASCADE,
     channel_id      INT     NOT NULL    REFERENCES channels(id) ON DELETE CASCADE,
-    -- user_role       INT     NOT NULL,  -- каждое право пользователя определяется битом в инте
-    -- _enckey_user    BYTEA   NOT NULL,
-    preferences     JSON    DEFAULT NULL,
+    preferences     JSON,
+    user_role       JSON,  -- каждое право пользователя определяется битом в инте
+    _enckey_user    JSON,
     PRIMARY KEY (user_id, channel_id)
 );
 

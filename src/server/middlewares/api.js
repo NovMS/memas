@@ -1,5 +1,17 @@
 const { client } = require('./pg');
 
+function jsonInQuotesOrNull(obj) {
+    let ret = obj;
+    ret = (ret) ? "'" + JSON.stringify(ret) + "'" : null;
+    return ret;
+}
+
+function strInQuotesOrNull(str) {
+    let ret = str;
+    ret = (ret) ? "'" + ret + "'" : null;
+    return ret;
+}
+
 module.exports = function(app) {
 
     // app.get('/api/test', async (req, res) => {
@@ -18,18 +30,16 @@ module.exports = function(app) {
     //     }
     // });
 
-    // channels
+    //channels
     app.post('/api/channels', async (req, res) => {
         try {
-            let name = req.body.name;
-            let parent_id = req.body.parent_id || "DEFAULT";
-            let _enckey_parent = req.body._enckey_parent;
-            _enckey_parent = (_enckey_parent) ?
-                             "'" + JSON.stringify(_enckey_parent) + "'" : null;
-            console.log(_enckey_parent);
+            let name = strInQuotesOrNull(req.body.name);
+            let parent_id = req.body.parent_id || null;
+            let _enckey_parent = jsonInQuotesOrNull(req.body._enckey_parent);
+
             await client.query(`
                 INSERT INTO channels (id, name, parent_id, _enckey_parent)
-                    VALUES(DEFAULT, '${name}', ${parent_id}, ${_enckey_parent})
+                    VALUES(DEFAULT, ${name}, ${parent_id}, ${_enckey_parent})
             `);
             console.log("\ncreated channel " + name);
             res.send("\nchannel created\n");
@@ -65,19 +75,19 @@ module.exports = function(app) {
         }
     });
 
-    // messages
+    //messages
     app.post('/api/channels/:channelId/messages', async (req, res) => {
         try {
             let channel_id = req.params.channelId;
-            let answer_to_id = req.body.answer_to_id || "DEFAULT";
+            let answer_to_id = req.body.answer_to_id || null;
             let user_id = req.body.user_id;
-            let _text = req.body._text;
+            let _text = strInQuotesOrNull(req.body._text);
 
             await client.query(`
                 INSERT INTO messages(id, channel_id, answer_to_id, user_id,
                                      date_time, _text)
                     VALUES(DEFAULT, ${channel_id}, ${answer_to_id}, ${user_id},
-                           DEFAULT, '${_text}')
+                           DEFAULT, ${_text})
             `);
             console.log("message posted to channel " + channel_id);
             res.send("\nmessage posted\n");
@@ -99,17 +109,19 @@ module.exports = function(app) {
         }
     });
 
-    // users
+    //users
     app.post('/api/users', async (req, res) => {
         try {
-            let email=req.body.email;
-            let name=req.body.name;
-            let surname=req.body.surname;
-            let avatar_url=req.body.avatar_url;
+            let email=strInQuotesOrNull(req.body.email);
+            let name=strInQuotesOrNull(req.body.name);
+            let surname=strInQuotesOrNull(req.body.surname);
+            let pubkey = jsonInQuotesOrNull(req.body.pubkey);
+            let _privkey = jsonInQuotesOrNull(req.body._privkey);
+            let avatar_url=strInQuotesOrNull(req.body.avatar_url);
 
             await client.query(`
-                INSERT INTO users (id, email, name, surname, avatar_url)
-                    VALUES(DEFAULT, '${email}', '${name}', '${surname}', '${avatar_url}')
+                INSERT INTO users (id, email, name, surname, pubkey, _privkey, avatar_url)
+                    VALUES(DEFAULT, ${email}, ${name}, ${surname}, ${pubkey}, ${_privkey}, ${avatar_url})
             `);
             console.log("user created");
             res.send("\nuser created\n");
@@ -145,16 +157,21 @@ module.exports = function(app) {
         }
     });
 
-    // user_in_channel
+    //user_in_channel
     app.post('/api/channels/:channelId/users/:userId', async (req, res) => {
         try {
             let channel_id = req.params.channelId;
             let user_id = req.params.userId;
-            let preferences = (req.body.preferences)? "'"+req.body.preferences+"'": "DEFAULT";
+            let preferences = jsonInQuotesOrNull(req.body.preferences);
+
+            let _enckey_user = jsonInQuotesOrNull(req.body._enckey_user);
+            let user_role = jsonInQuotesOrNull(req.body.user_role);
 
             await client.query(`
-                INSERT INTO user_in_channel (user_id, channel_id, preferences)
-                    VALUES(${user_id}, ${channel_id}, ${preferences})
+                INSERT INTO user_in_channel (user_id, channel_id, preferences,
+                                             _enckey_user, user_role)
+                    VALUES(${user_id}, ${channel_id}, ${preferences},
+                           ${_enckey_user}, ${user_role})
             `);
             console.log(`user with id=${user_id} added to channel with id=${channel_id}`);
             res.send(`\nuser with id=${user_id} added to channel with id=${channel_id}\n`);
