@@ -1,15 +1,14 @@
 const { client } = require('./pg');
 
 function jsonInQuotesOrNull(obj) {
-    let ret = obj;
-    ret = (ret) ? "'" + JSON.stringify(ret) + "'" : null;
-    return ret;
+    return (obj) ? "'" + JSON.stringify(obj) + "'" : null;
+    // let ret = obj;
+    // ret = (ret) ? "'" + JSON.stringify(ret) + "'" : null;
+    // return ret;
 }
 
 function strInQuotesOrNull(str) {
-    let ret = str;
-    ret = (ret) ? "'" + ret + "'" : null;
-    return ret;
+    return (str) ? "'" + str + "'" : null;
 }
 
 module.exports = function(app) {
