@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { addMessage } from '../../../../actions/';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import FormLabel from '@material-ui/core/FormLabel';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -38,6 +39,9 @@ const useStyles = makeStyles(theme => ({
     minWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+
+
+
   nested: {
     paddingLeft: theme.spacing(4),
   },
@@ -45,19 +49,29 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: red,
         color : green,
     },
-
     TextSize:{
-       fontSize: '2vh',
+        fontSize: '2vh',
+
+
+    },
+    LabelSetting : {
+      color : orange[500],
+        '& fieldset' : {
+          color : green[500],
+        }
     }
 
 }));
 
+
+
 function Messages(props) {
-    const { message, user, users, channels, active_chat_id, addMessage } = props;
+    const { message, user, users, channels, active_chat_id, encKey ,addMessage } = props;
     const [open, setOpen] = React.useState(true);
     //const [sizeState, setSizeState] = React.useState(true);
     const [text, setText] = React.useState("");
-    const [size,setSize] = React.useState("85vh");
+    const [size,setSize] = React.useState("86.15vh");
+    const [flag,setFlag] = React.useState(1);
     const [rowws,setRowws] = React.useState(1);
     const [filter, setFilter] = useState('');
     const active = user;
@@ -72,11 +86,12 @@ function Messages(props) {
         return cipher_text;
     }
                                             //////  <<<<<<--------------------- HERE!!!
-    function Encrypt( plain_text) {
-        return plain_text;
-    }
-//// HERE!!!!
+    function Send( plain_text, key) {
 
+    }
+
+
+//// HERE!!!!
 
 
     function getList( message_list) {
@@ -130,14 +145,14 @@ function Messages(props) {
     return (
         <div className="Messages" style={{height: '100vh' , width:"50vw", maxWidth:"50vw",maxHeight : '100vh'}}>
             <Box pl={1} pr={1} pt={0.6}>
-                <div style={{background:'white', height : '97vh', maxWidth:"50vw", maxHeight:'97vh'}}>
+                <div style={{background:'white', height : '98.2vh', maxWidth:"50vw", maxHeight:'98.2vh'}}>
                     <div style={{background:'#F5F5F5', height : '1vh', maxWidth:"50vw",paddingTop:'1vh',paddingBottom : '4vh',
                             fontSize:'3vh',fontWeight: '600'}}>
                         <p style={{textAlign : 'center',margin:'0px',}}>{
                             active_chat_id ?
                                 channels[active_chat_id].name
                             :
-                                "Please  Select  Channel"}
+                                "Please  Select  Channel" }
                         </p>
                     </div>
                     <div style={{background:'white', height : size,maxHeight:size, maxWidth:"50vw", overflowY:'auto',
@@ -148,28 +163,43 @@ function Messages(props) {
                     </div>
                     <div style={{background:'white', height : '1vh',maxHeight:'1vh', maxWidth:"50vw"}}>
                         <TextField
-                                        label="Введите сообщение"
-                                        placeholder="Введите сообщение"
+                                    label = 'Some Text'
+                                    placeholder="Введите сообщение"
                                         multiline
-                                        //classes={{root:classes.}}
                                         value={text}
-                                        onChange={e =>{
-                                               setText(Encrypt(e.target.value));
-                                               setSize("76vh")
-                                               setRowws(5)
-                                           }}
-
-                                        onKeyPress={ e => {
-                                            if ( e.key === 'Enter' && e.shiftKey){
-                                              addMessage(getLength(Object.values(message).filter(v => v.channel_id=== active_chat_id).map( v => v.id )) + 1,e.target.value);
-                                               setText("")
-                                               setSize("85vh")
-                                               setRowws(1)
-                                           }
+                                        onKeyDown={ e => {
+                                            if (e.key === 'Enter' && e.shiftKey) {
+                                                addMessage(getLength(Object.values(message).filter(v => v.channel_id === active_chat_id).map(v => v.id)) + 1, e.target.value);
+                                                Send(e.target.value, encKey);
+                                                setText("")
+                                                setSize("86.15vh")
+                                                setRowws(1)
+                                                setFlag(2)
+                                            } else if (e.key === 'Enter') {
+                                                setText(text + '\n');
+                                                setRowws(5)
+                                                setSize("77vh")
+                                            } else if (e.key === 'Backspace' || e.key === 'Delete') {
+                                                setText(text.substring(0,text.length-1));
+                                                setRowws(5)
+                                                setSize("77vh")
+                                            } else if (e.key != 'Shift' && e.key != 'Meta' && e.key != 'Control' && e.key !== 'Alt' && e.key != 'CapsLock' &&
+                                                        e.key != 'ArrowLeft' && e.key != 'ArrowDown' && e.key != 'ArrowRight' && e.key != 'ArrowUp'
+                                            ) {
+                                                setText(text+e.key);
+                                                setRowws(5)
+                                                setSize("77vh")
+                                            }
+                                        }}
+                                    classes={{ root : classes.test}}
+                                        InputLabelProps={{
+                                            classes: {
+                                                focused : classes.LabelSetting,
+                                            },
                                         }}
                                         InputProps={{
                                             classes: {
-                                                input: classes.TextSize,
+                                                root: classes.TextSize,
                                             },
                                         }}
                                         margin="normal"
@@ -178,7 +208,6 @@ function Messages(props) {
                                         rows={rowws}
                                         rowsMax={5}
                                         style={{width: "48.8vw", maxWidth : "48.8vw",margin:'0px' }}>
-
                         </TextField>
                     </div>
                 </div>
@@ -188,6 +217,8 @@ function Messages(props) {
 }
 
 export default connect(
-    store => ({ message : store.data.message,channels : store.data.channels, user: store.data.user, users : store.data.users, active_chat_id: store.state.active_chat_id}),
+    store => ({ message : store.data.message,channels : store.data.channels,
+        user: store.data.user, users : store.data.users, active_chat_id: store.state.active_chat_id, encKey : store.encKey,
+    }),
     {addMessage}
 )(Messages)

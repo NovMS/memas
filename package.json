@@ -8,7 +8,7 @@
     "build:client": "cross-env NODE_ENV=production webpack -p --progress --config=config/webpack.config.prod.js",
     "build:server": "copyfiles -a -u 1 src/server/**/**/* build",
     "test-api": "tests/api/channels.sh && tests/api/users.sh && tests/api/user_in_channel.sh && tests/api/messages.sh",
-	"test-badapi": "tests/badapi/badapi.sh",
+    "test-badapi": "tests/badapi/badapi.sh",
     "test-channels": "tests/api/channels.sh",
     "test-messages": "tests/api/messages.sh",
     "test-users": "tests/api/users.sh",
