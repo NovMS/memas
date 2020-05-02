@@ -82,12 +82,21 @@ function Messages(props) {
 
 
 /// HERE!!!!
-    function Decrypt( cipher_text) {
+    function Decrypt( cipher_text , key ) {
         return cipher_text;
     }
-                                            //////  <<<<<<--------------------- HERE!!!
-    function Send( plain_text, key) {
 
+    async function sendMessage( channel_id , message , key ) {
+        channel_id = 1;
+        message._text = message.text;
+        console.log(message);
+        let response = await fetch(`/api/channels/${channel_id}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(message)
+        });
     }
 
 
@@ -109,7 +118,7 @@ function Messages(props) {
                                 <p
                                     style={{ fontSize : '2vh',fontWeight: '400', overflowWrap : 'break-word', margin : '0px' }}
                                 >
-                                    {Decrypt(v.text)}
+                                    {Decrypt(v.text,encKey)}
                                 </p>
                                 <Box display="flex">
                                     <Box mr={3}>
@@ -141,6 +150,12 @@ function Messages(props) {
 
     }
 
+    function Message(uid , aid , text) {
+        this.user_id = uid;
+        this.answer_to_id = aid;
+        this.text = text;
+    }
+
 
     return (
         <div className="Messages" style={{height: '100vh' , width:"50vw", maxWidth:"50vw",maxHeight : '100vh'}}>
@@ -170,7 +185,8 @@ function Messages(props) {
                                         onKeyDown={ e => {
                                             if (e.key === 'Enter' && e.shiftKey) {
                                                 addMessage(getLength(Object.values(message).filter(v => v.channel_id === active_chat_id).map(v => v.id)) + 1, e.target.value);
-                                                Send(e.target.value, encKey);
+                                                let msg = new Message(user.id, null , e.target.value);
+                                                sendMessage( active_chat_id , msg , encKey);
                                                 setText("")
                                                 setSize("86.15vh")
                                                 setRowws(1)
