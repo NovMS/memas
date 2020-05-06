@@ -14,6 +14,15 @@ export default {
     //  ***   Message Struct End
 
     message:{
+        "1.0.0" : {
+            id : "1.0.0",
+            channel_id : "0",
+            user_id    : "11",
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time  : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "My First Note",
+
+        },
         "1.0.1" : {
             id : "1.0.1",
             channel_id : "11_3",
@@ -25,12 +34,56 @@ export default {
         },
         "1.0.2" : {
             id : "1.0.2",
-            answer_to_id : "1.0.1",
             channel_id : "11_3",
             user_id    : "11",
             date  : { "d": 18, "m" : 11, "y" : 1999 },
             time : { "h" : 1, "m" : 2, "s":3} ,
             text       : "double some text"
+        },
+        "1.0.3" : {
+            id : "1.0.3",
+            answer_to_id : "1.0.1",
+            channel_id : "11_3",
+            user_id    : "11",
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "some reply text"
+        },
+        "1.0.4" : {
+            id : "1.0.4",
+            answer_to_id : "1.0.1",
+            channel_id : "11_3",
+            user_id    : "11",
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "double some reply text"
+        },
+        "1.0.5" : {
+            id : "1.0.5",
+            answer_to_id : "1.0.4",
+            channel_id : "11_3",
+            user_id    : "11",
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "LongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongText"
+        },
+        "1.0.6" : {
+            id : "1.0.6",
+            answer_to_id : "1.0.5",
+            channel_id : "11_3",
+            user_id    : "11",
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "LongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongLongText"
+        },
+        "1.0.7" : {
+            id : "1.0.7",
+            answer_to_id : "",
+            channel_id : "21_5",
+            user_id    : "11",
+            date  : { "d": 18, "m" : 11, "y" : 1999 },
+            time : { "h" : 1, "m" : 2, "s":3} ,
+            text       : "RandomMessageForTest"
         }
     },
 
@@ -58,6 +111,15 @@ export default {
         //  Important :::  CHILD MUST BE UNDER HIS FATHER ( we can ignore this rule, but it overload our interface)
         //  Hint      :::  Rule always work if we add channel using only interface
         //
+        "0": { //Always Must Be i think we need add this on data form point
+            id: "0",
+            name: "Заметки",
+            // для новых непрочитанных сообщений отправляем уведомление на почту
+            isImportant: true,
+            members: [],
+            "updated_at": "2019-12-01T12:00:00",
+            channel_ids: []
+        },
         "11_3": {
             id: "11_3",
             name: "Top Channel",
