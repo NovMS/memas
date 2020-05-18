@@ -23,6 +23,70 @@ export default (store, action) => {
                 active_users: set
             };
         }
+        case 'addTab' : {
+            let set = new Set(store.state.activeTabs)
+            let elem = { id : action.chatId , name : action.name }
+            set.add(elem)
+            return  {
+                ...store.state,
+                activeTabs : set
+            }
+        };
+        case 'deleteTab' : {
+          let set = new Set(store.state.activeTabs)
+            let curr_id;
+            let curr_num;
+            let last_id;
+            let last_num;
+          set.forEach( (el) =>{
+              if ( el.id === action.chatId ){
+                  let ct = 0
+                  set.forEach( (e) => {
+                      if ( el.id == e.id ){
+                          if ( ct > 0){
+                              curr_id = last_id;
+                              curr_num = last_num;
+                          }
+                          else {
+                              curr_id = "0";
+                              curr_num = 0;
+                          }
+                      }
+                      last_id = el.id;
+                      last_num = ct ;
+                          ct++
+                  })
+
+                  set.delete(el)
+
+              }
+          })
+          return {
+              ...store.state,
+              active_chat_id: curr_id,
+              activeTabs:   set,
+              activeTab: curr_num,
+          }
+        };
+        case 'selectTab' : {
+            return {
+                ...store.state,
+                activeTab : action.num
+            }
+        }
+        case 'setUpTabs' : {
+            return {
+                ...store.state,
+                activeTabs : action.mySet,
+                activeTab : action.actTab,
+            }
+        }
+        case 'replaceMessages' : {
+            return {
+                ...store,
+                msi : action.mySet,
+            }
+        }
         default:
             return store.state;
     }

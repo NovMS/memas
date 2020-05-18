@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { addMessage } from '../../../../actions/';
+import {addMessage, selectActiveChatId} from '../../../../actions/';
 import TextField from '@material-ui/core/TextField';
 import {createMuiTheme, makeStyles, ThemeProvider, withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -35,6 +35,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { green, purple ,red , blue, grey, orange } from '@material-ui/core/colors';
 import CropDinRoundedIcon from '@material-ui/icons/CropDinRounded';
 import Grid from '@material-ui/core/Grid';
+import {addTab, deleteTab, selectTab} from "../../../../actions";
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const useStyles = makeStyles(theme => ({
@@ -84,13 +89,18 @@ const useStyles = makeStyles(theme => ({
 
 
 function Messages(props) {
-    const { message, user, users, channels, active_chat_id, encKey ,addMessage } = props;
+    const { message, user, users, channels, active_chat_id, encKey, tabs,activeTab ,addMessage,addTab,deleteTab,selectTab,selectActiveChatId } = props;
     const [text, setText] = React.useState("");
     const [size,setSize] = React.useState("86vh");
     const [flag,setFlag] = React.useState(1);
     const [rowws,setRowws] = React.useState(1);
     const [reload,setReload] = React.useState(false);
-    console.log(active_chat_id)
+    const [tabsCount,setTabsCount] = React.useState(0);
+
+
+    console.log("LOCAL ::: ")
+    console.log(message)
+    console.log("LOCAL ::: ")
 
 
     const [sendList , setSendList] = React.useState([]);
@@ -506,20 +516,65 @@ function Messages(props) {
         }
     })
 
+    const MyThemeTab = createMuiTheme({
+        palette: {
+            primary: grey,
+            secondary: blue,
+        }
+    })
+
+    function getTab( tabsList) {
+        const list = [];
+        if(!tabsList){
+            return list;
+        }
+        let ct = 0
+        tabsList.forEach( el => {
+            list.push(
+                <Tab label={el.name} onChange={e=> (console.log("HELP ME"))} >
+                </Tab>
+            )
+            list.push(
+                <IconButton>
+                    <CloseIcon onClick={ e=> {deleteTab(el.id) }}/>
+                </IconButton>
+            )
+            
+        })
+        return list
+    }
+
+    console.log(activeTab)
 
     return (
         <div className="Messages" style={{height: '100vh' , width:"50vw", maxWidth:"50vw",maxHeight : '100vh'}}>
             <Box pl={1} pr={1} pt={0.6}>
                 <div style={{background:'white', height : '98.2vh', maxWidth:"50vw", maxHeight:'98.2vh'}}>
-                    <div style={{background:'white', height : '1vh', maxWidth:"50vw",paddingTop:'1vh',paddingBottom : '4vh',
-                            fontSize:'3vh',fontWeight: '600', borderBottom : "0.5vmin solid orange"}}>
-                        <p style={{textAlign : 'center',margin:'0px',}}>{
-                            active_chat_id ?
-                                channels[active_chat_id].name
-                            :
-                                channels["0"].name  }
-                        </p>
-                    </div>
+                    <AppBar position="static" color="white" style={{borderBottom : "0.5vmin solid orange", height : "6.45vh"}}>
+                        <ThemeProvider theme={MyThemeTab}>
+                            <Tabs
+                                value = { activeTab }
+                                onChange={ (e,count)=>{
+                                    let ct = 0;
+                                    tabs.forEach( el=> {
+                                        if ( ct == count){
+                                            selectActiveChatId(el.id)
+                                            console.log("work")
+                                        }
+                                        ct++;
+                                    });
+                                    selectTab(count);
+                                    e.stopPropagation();
+                                }}
+                                indicatorColor="secondary"
+                                textColor="secondary"
+                                variant="scrollable"
+                                scrollButtons="on"
+                            >
+                                {getTab(tabs)}
+                            </Tabs>
+                        </ThemeProvider>
+                    </AppBar>
                     <div style={{background:'white', height : size,maxHeight:size, maxWidth:"50vw", overflowY:'auto',
                         paddingTop:"1vh", paddingLeft:"1vw", paddingRight:"1vw",display:'flex'}}>
                         <List>
@@ -535,11 +590,13 @@ function Messages(props) {
                                             onCopy={ e => {
                                                     const selection = document.getSelection();
                                                     e.clipboardData.setData('text', selection.toString());
-                                                    e.preventDefault()
                                                 }
                                             }
                                             onPaste={ e=> {
+                                                    setRowws(5)
+                                                    setSize("77vh")
                                                     setText(text + e.clipboardData.getData('text'))
+
                                                 }
                                             }
                                             onKeyDown={ e => {
@@ -613,8 +670,9 @@ function Messages(props) {
 }
 
 export default connect(
-    store => ({ message : store.data.message,channels : store.data.channels,
+    store => ({ message : store.msi, channels : store.data.channels,
         user: store.data.user, users : store.data.users, active_chat_id: store.state.active_chat_id, encKey : store.encKey,
+        tabs : store.state.activeTabs , activeTab : store.state.activeTab
     }),
-    {addMessage}
+    {addMessage,addTab,deleteTab,selectTab,selectActiveChatId}
 )(Messages)

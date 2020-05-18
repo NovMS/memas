@@ -32,10 +32,10 @@ let tmp2 = {}
 //   dataChanels.json().then( ent => tmp2.some = ent), err => console.log("ERROR : BAD PARSE DATA_CHANNELS" + err))
 //     .catch( e => console.log("ERROR: " + e));
 
-fetch('http://localhost:30001/badapi/users/1/channels').then( dataChanels =>
-    dataChanels.json().then(x => {tmp.message= JSON.parse(JSON.stringify(x)); console.log(x);}),
-     err => console.log("ERROR : BAD PARSE DATA_CHANNELS" + err))
-    .catch( e => console.log("ERROR: " + e));
+// fetch('http://localhost:30001/badapi/users/1/channels').then( dataChanels =>
+//     dataChanels.json().then(x => {tmp.message= JSON.parse(JSON.stringify(x)); console.log(x);}),
+//      err => console.log("ERROR : BAD PARSE DATA_CHANNELS" + err))
+//     .catch( e => console.log("ERROR: " + e));
 // let a = await !!!! ( async )
 
 // fetch('http://localhost:30001/badapi/channels/1/messages').then( dataMessages =>
@@ -56,8 +56,22 @@ console.log(tmp);
 console.log("DATA :::");
 console.log(data);
 
+//let messages = data.message;
 
-const store = createStore(reducer, {encKey: ENCKey.key, data: data, state: {right_panel_mode: 'direct',active_chat_id : '0', active_users: new Set()}});
+const store = createStore(reducer,
+    {
+        encKey: ENCKey.key,
+        data: data,
+        msi : data.message,
+        state: {
+            right_panel_mode: 'direct',
+            active_chat_id : '0',
+            activeTabs : new Set(),
+            activeTab : 0,
+            active_users: new Set()
+        }
+    }
+    );
 
 ReactDOM.render(
     <Provider store={store}>

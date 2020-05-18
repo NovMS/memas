@@ -55,3 +55,25 @@ export const addDirectMessage = (user_id, text) => ({
         text: text,
         user_id: user_id
 });
+export const addTab = ( chat_id , name  ) => ({
+   type : "addTab"  ,
+   chatId : chat_id ,
+   name : name
+});
+export  const deleteTab = ( chat_id ) => ({
+   type : "deleteTab",
+   chatId : chat_id ,
+});
+export const selectTab = ( num ) => ({
+   type : "selectTab",
+   num : num
+});
+export const  setUpTabs = ( mySet , actTab  ) => ({
+   type : "setUpTabs",
+   mySet : mySet,
+   actTab : actTab,
+});
+export const replaceMessages = ( myMessageSet ) => ({
+    type : "replaceMessages",
+    mySet : myMessageSet,
+})
