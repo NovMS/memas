@@ -48,17 +48,17 @@ export const addMessage = (id, text, answer_id, channel_id, meta) => ({
         chid : channel_id,
         text: text,
         id: id,
-        id_meta : meta
+        id_meta : meta,
 });
 export const addDirectMessage = (user_id, text) => ({
         type: "addDirectMessage",
         text: text,
-        user_id: user_id
+        user_id: user_id,
 });
 export const addTab = ( chat_id , name  ) => ({
    type : "addTab"  ,
    chatId : chat_id ,
-   name : name
+   name : name,
 });
 export  const deleteTab = ( chat_id ) => ({
    type : "deleteTab",
@@ -66,7 +66,7 @@ export  const deleteTab = ( chat_id ) => ({
 });
 export const selectTab = ( num ) => ({
    type : "selectTab",
-   num : num
+   num : num,
 });
 export const  setUpTabs = ( mySet , actTab  ) => ({
    type : "setUpTabs",
@@ -76,4 +76,12 @@ export const  setUpTabs = ( mySet , actTab  ) => ({
 export const replaceMessages = ( myMessageSet ) => ({
     type : "replaceMessages",
     mySet : myMessageSet,
-})
+});
+export const replaceChannels = (myChannelSet) => {
+    console.log("replaceChannels: ");
+    console.log(myChannelSet);
+    return {
+        type : "replaceChannels",
+        mySet : myChannelSet,
+    };
+}

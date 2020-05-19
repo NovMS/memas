@@ -14,7 +14,7 @@ export default (store, action) => {
                 ...store.state,
                 active_users: set
             };
-        }    
+        }
         case 'deactivateUser': {
             let set = new Set(store.state.active_users);
             set.delete(action.user_id);
@@ -85,6 +85,12 @@ export default (store, action) => {
             return {
                 ...store,
                 msi : action.mySet,
+            }
+        }
+        case 'replaceChannels' : {
+            return {
+                ...store,
+                channelsXPEHb : action.mySet,
             }
         }
         default:
