@@ -7,7 +7,7 @@ export default (store, action) => {
     }
 
     default : {
-      console.log("not dispatch channels.js");
+      //console.log("not dispatch channels.js");
       return store.channelsXPEHb;
     }
   };

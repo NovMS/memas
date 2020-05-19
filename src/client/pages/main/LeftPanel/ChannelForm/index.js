@@ -49,6 +49,7 @@ import Grid from '@material-ui/core/Grid';
 import GradeIcon from '@material-ui/icons/Grade';
 import {style} from "redux-logger/src/diff";
 import {addTab, replaceMessages, replaceChannels, selectTab, setUpTabs} from "../../../../actions";
+import QueryService from '../../../../services/index.js';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -171,6 +172,8 @@ function ChannelForm(props) {
         replaceMessages,
         replaceChannels
     } = props;
+
+
 
     const [open, setOpen] = React.useState(true);
 
@@ -697,9 +700,22 @@ function ChannelForm(props) {
                                  <Button onClick={ (e) =>
                                    {
                                      setReload(!reload);
-                                     replaceChannels(new Set([1,2,3,4]));
+                                     async function myChannels() {
+                                         let queryService = new QueryService();
+                                         console.log("v ==== replaceChannels: ==== v");
+                                         replaceChannels(await queryService.getResource('/badapi/users/1/channels'));
+                                         console.log("^ ==== replaceChannels: ==== ^");
+                                     }
+                                     async function myMessages() {
+                                         let queryService = new QueryService();
+                                         console.log("v ==== replaceMessages: ==== v");
+                                         replaceMessages(await queryService.getResource('/badapi/channels/1/messages'));
+                                         console.log("^ ==== replaceMessages: ==== ^");
+                                     }
+                                     myChannels();
+                                     myMessages();
                                    }}>
-                                     ADD
+                                     Update
                                   </Button>
                                 <Button variant="contained" color={pickB1} onClick={activate1} className={classes.MyButtonAll}>
                                     ALL
@@ -770,7 +786,7 @@ function ChannelForm(props) {
 }
 
 ///
-export default connect(store => ({channels: store.data.channels, tmpCh : store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab}), {
+export default connect(store => ({channels: store.channelsXPEHb, tmpCh : store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab}), {
     selectActiveChatId,
     showChannel,
     hideChannel,

@@ -44,13 +44,14 @@ const store = createStore(reducer,
     }
     );
 
-async function myFun() {
-    let queryService = new QueryService();
-    console.log("v ==== replaceChannels: ==== v");
-    replaceChannels(await queryService.getResource('/badapi/users/1/channels'));
-    console.log("^ ==== replaceChannels: ==== ^");
-}
-myFun();
+// async function myFun() {
+//     let queryService = new QueryService();
+//     console.log("v ==== replaceChannels: ==== v");
+//     //replaceChannels(await queryService.getResource('/badapi/users/1/channels'));
+//     replaceChannels( new Set([7,8,9]));
+//     console.log("^ ==== replaceChannels: ==== ^");
+// }
+// myFun();
 
 ReactDOM.render(
     <Provider store={store}>

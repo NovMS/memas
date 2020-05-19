@@ -73,13 +73,19 @@ export const  setUpTabs = ( mySet , actTab  ) => ({
    mySet : mySet,
    actTab : actTab,
 });
-export const replaceMessages = ( myMessageSet ) => ({
-    type : "replaceMessages",
-    mySet : myMessageSet,
-});
+export const replaceMessages = ( myMessageSet ) => {
+    console.log("replaceMessahes :::  ");
+    console.log(myMessageSet);
+    console.log("replaceMessages ::: ");
+    return {
+      type : "replaceMessages",
+      mySet : myMessageSet,
+    }
+};
 export const replaceChannels = (myChannelSet) => {
-    console.log("replaceChannels: ");
+    console.log("replaceChannels :::  ");
     console.log(myChannelSet);
+    console.log("replaceChannels ::: ");
     return {
         type : "replaceChannels",
         mySet : myChannelSet,

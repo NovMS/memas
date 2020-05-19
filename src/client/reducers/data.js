@@ -71,7 +71,7 @@ export default (store, action) => {
         }
         return storeData;
     default:{
-      console.log("not dispatch in data.js")
+      //console.log("not dispatch in data.js")
       return store.data;
     }
   }

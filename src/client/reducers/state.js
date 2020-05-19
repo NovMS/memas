@@ -81,16 +81,10 @@ export default (store, action) => {
                 activeTab : action.actTab,
             }
         }
-        case 'replaceMessages' : {
-            return {
-                ...store,
-                msi : action.mySet,
-            }
-        }
 
         default:
             {
-              console.log("not dispatch in state.js")
+            //  console.log("not dispatch in state.js")
               return store.state;
             }
     }
