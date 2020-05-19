@@ -42,7 +42,7 @@ export default (store, action) => {
         channels:{
             ... store.data.channels,
         }
-      };  
+      };
     case 'addChannel':
         const id = store.data.user.id + "_" + store.data.user.channels_number;
         const storeData = {
@@ -69,8 +69,10 @@ export default (store, action) => {
                 channel_ids: !parent.channel_ids ? [id] : [id, ... parent.channel_ids]
             }
         }
-        return storeData;   
-    default:
+        return storeData;
+    default:{
+      console.log("not dispatch in data.js")
       return store.data;
+    }
   }
 };

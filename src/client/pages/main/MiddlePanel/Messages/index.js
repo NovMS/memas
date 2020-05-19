@@ -98,11 +98,6 @@ function Messages(props) {
     const [tabsCount,setTabsCount] = React.useState(0);
 
 
-    console.log("LOCAL ::: ")
-    console.log(message)
-    console.log("LOCAL ::: ")
-
-
     const [sendList , setSendList] = React.useState([]);
     const [sendListCount , setSendListCount] = React.useState(0);
     const [symbol , setSymbol] = React.useState(["A","B","C","D","E","F","G","H","I","J","K","L","M",
@@ -178,7 +173,7 @@ function Messages(props) {
                                                             setSendList(tmp2);
                                                             v.Mark = "";
                                                             v.isMark = false;
-                                                            console.log(sendList);
+
                                                             setReload(!reload);
                                                             e.stopPropagation();
                                                         }
@@ -240,7 +235,7 @@ function Messages(props) {
                                                                 }
                                                             }
                                                         }
-                                                        console.log(sendList);
+
                                                         setReload(!reload);
                                                         e.stopPropagation();
 
@@ -357,7 +352,7 @@ function Messages(props) {
                                                             setSendList(tmp2);
                                                             v.Mark = "";
                                                             v.isMark = false;
-                                                            console.log(sendList);
+
                                                             setReload(!reload);
                                                             e.stopPropagation();
                                                         }
@@ -419,7 +414,7 @@ function Messages(props) {
                                                                 }
                                                             }
                                                         }
-                                                        console.log(sendList);
+
                                                         setReload(!reload);
                                                         e.stopPropagation();
 
@@ -539,12 +534,12 @@ function Messages(props) {
                     <CloseIcon onClick={ e=> {deleteTab(el.id) }}/>
                 </IconButton>
             )
-            
+
         })
         return list
     }
 
-    console.log(activeTab)
+
 
     return (
         <div className="Messages" style={{height: '100vh' , width:"50vw", maxWidth:"50vw",maxHeight : '100vh'}}>
@@ -559,10 +554,12 @@ function Messages(props) {
                                     tabs.forEach( el=> {
                                         if ( ct == count){
                                             selectActiveChatId(el.id)
-                                            console.log("work")
+
                                         }
                                         ct++;
                                     });
+
+                                    // Update Message //
                                     selectTab(count);
                                     e.stopPropagation();
                                 }}
@@ -603,21 +600,21 @@ function Messages(props) {
                                                 if (e.key === 'Enter' && e.shiftKey) {
                                                     let tmp_active_chat_id
                                                     if(active_chat_id == ""){
-                                                        tmp_active_chat_id = "0"; console.log("work");
+                                                        tmp_active_chat_id = "0";
                                                     } else { tmp_active_chat_id = active_chat_id}
                                                     if( sendList.length == 0 ){
                                                         addMessage(getLength(Object.values(message).filter(v => v.channel_id === tmp_active_chat_id).map(v => v.id)) + 1, e.target.value,"",tmp_active_chat_id,"N");
                                                         let msg = new Message(user.id, null , e.target.value);
                                                         sendMessage( active_chat_id , msg , encKey);
                                                     } else {
-                                                        console.log("Here")
+
                                                         for ( let i = 0 ; i < sendList.length ; i++){
                                                             addMessage(getLength(Object.values(message).filter(v => v.channel_id === tmp_active_chat_id).map(v => v.id)) + 1 , e.target.value,sendList[i].obj.anid,sendList[i].obj.acid, i );
                                                             let msg = new Message(user.id, sendList[i].obj.anid , e.target.value);
                                                             sendMessage( sendList[i].obj.acid , msg , sendList[i].obj.encKey);
                                                         }
                                                     }
-                                                    console.log(message)
+
                                                     setText("")
                                                     setSize("86vh")
                                                     setRowws(1)

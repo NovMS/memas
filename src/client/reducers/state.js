@@ -87,15 +87,11 @@ export default (store, action) => {
                 msi : action.mySet,
             }
         }
-        case 'replaceChannels' : {
-            let tmpSet = new Set([1,2,3,4]);
-            return {
-                ...store,
-                channelsXPEHb : tmpSet,
-                // channelsXPEHb : action.mySet,
-            }
-        }
+
         default:
-            return store.state;
+            {
+              console.log("not dispatch in state.js")
+              return store.state;
+            }
     }
 };

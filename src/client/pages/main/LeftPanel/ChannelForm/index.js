@@ -157,6 +157,7 @@ const MyThemeB = createMuiTheme({
 function ChannelForm(props) {
     const {
         channels,
+        tmpCh,
         active_chat_id,
         tabs,
         activeTab,
@@ -170,10 +171,6 @@ function ChannelForm(props) {
         replaceMessages,
         replaceChannels
     } = props;
-
-    console.log("CONSOLE LOG: v");
-    console.log(channels);
-    console.log("CONSOLE LOG: ^");
 
     const [open, setOpen] = React.useState(true);
 
@@ -688,6 +685,22 @@ function ChannelForm(props) {
                     <Box mt={-1} px={2} mb={0.5} ml={-2}>
                         <ThemeProvider theme={MyTheme}>
                             <ThemeProvider theme={MyThemeB}>
+                                <Button onClick={ (e) =>
+                                  {
+                                    setReload(!reload);
+                                    console.log("CONSOLE LOG: v");
+                                    console.log(tmpCh);
+                                    console.log("CONSOLE LOG: ^");
+                                  }}>
+                                    ReLoad
+                                 </Button>
+                                 <Button onClick={ (e) =>
+                                   {
+                                     setReload(!reload);
+                                     replaceChannels(new Set([1,2,3,4]));
+                                   }}>
+                                     ADD
+                                  </Button>
                                 <Button variant="contained" color={pickB1} onClick={activate1} className={classes.MyButtonAll}>
                                     ALL
                                 </Button>
@@ -757,7 +770,7 @@ function ChannelForm(props) {
 }
 
 ///
-export default connect(store => ({channels: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab}), {
+export default connect(store => ({channels: store.data.channels, tmpCh : store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab}), {
     selectActiveChatId,
     showChannel,
     hideChannel,
