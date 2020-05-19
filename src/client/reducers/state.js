@@ -88,9 +88,11 @@ export default (store, action) => {
             }
         }
         case 'replaceChannels' : {
+            let tmpSet = new Set([1,2,3,4]);
             return {
                 ...store,
-                channelsXPEHb : action.mySet,
+                channelsXPEHb : tmpSet,
+                // channelsXPEHb : action.mySet,
             }
         }
         default:

@@ -157,7 +157,6 @@ const MyThemeB = createMuiTheme({
 function ChannelForm(props) {
     const {
         channels,
-        tmpChannels, /////
         active_chat_id,
         tabs,
         activeTab,
@@ -171,6 +170,10 @@ function ChannelForm(props) {
         replaceMessages,
         replaceChannels
     } = props;
+
+    console.log("CONSOLE LOG: v");
+    console.log(channels);
+    console.log("CONSOLE LOG: ^");
 
     const [open, setOpen] = React.useState(true);
 
@@ -754,7 +757,7 @@ function ChannelForm(props) {
 }
 
 ///
-export default connect(store => ({channels: store.data.channels, tmpChannels: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab}), {
+export default connect(store => ({channels: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab}), {
     selectActiveChatId,
     showChannel,
     hideChannel,
