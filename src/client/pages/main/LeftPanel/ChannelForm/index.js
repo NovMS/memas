@@ -162,6 +162,7 @@ function ChannelForm(props) {
     active_chat_id,
     tabs,
     activeTab,
+    encKey,
     selectActiveChatId,
     showChannel,
     hideChannel,
@@ -720,6 +721,8 @@ function ChannelForm(props) {
                     replaceMessages(messages);
                     console.log("^ ==== replaceMessages: ==== ^");
                   }
+                  console.log(" KEYYY ::: ")
+                  console.log( encKey )
                   myChannels();
                   myMessages();
                 }}>
@@ -794,7 +797,7 @@ function ChannelForm(props) {
 }
 
 ///
-export default connect(store => ({ channels: store.channelsXPEHb, tmpCh: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab }), {
+export default connect(store => ({ channels: store.channelsXPEHb, tmpCh: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab , encKey : store.keyLace.encKey}), {
   selectActiveChatId,
   showChannel,
   hideChannel,

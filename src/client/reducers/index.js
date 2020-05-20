@@ -5,6 +5,7 @@ import updateMsi from './msi.js';
 import updateChannels from './initChannels';
 import updCh from './channels.js'
 import updMs from './messages.js'
+import updK from './keyLace.js'
 
 const reducer = (state, action) => {
   return {
@@ -13,6 +14,7 @@ const reducer = (state, action) => {
     state: updateState(state, action),
     msi : updMs( state , action ),
     channelsXPEHb : updCh( state , action ),
+    keyLace : updK( state , action ),
   };
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { addMessage, selectActiveChatId } from '../../../../actions/';
+import { addMessage, selectActiveChatId , setEncKey} from '../../../../actions/';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme, makeStyles, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -89,7 +89,7 @@ const useStyles = makeStyles(theme => ({
 
 
 function Messages(props) {
-  const { message, user, users, channels, active_chat_id, encKey, tabs, activeTab, addMessage, addTab, deleteTab, selectTab, selectActiveChatId } = props;
+  const { message, user, users, channels, active_chat_id, encKey, tabs, activeTab , addMessage, addTab, deleteTab, selectTab, selectActiveChatId  , setEncKey } = props;
   const [text, setText] = React.useState("");
   const [size, setSize] = React.useState("86vh");
   const [flag, setFlag] = React.useState(1);
@@ -111,7 +111,6 @@ function Messages(props) {
   const yesterday = moment().subtract(1, "days");
   const [text_size, setText_size] = React.useState("10px");
   const [reply, setReply] = React.useState(0);
-
 
 
   /// HERE!!!!
@@ -598,12 +597,14 @@ function Messages(props) {
                       tmp_active_chat_id = "0";
                     } else { tmp_active_chat_id = active_chat_id }
                     if (sendList.length == 0) {
+
                       addMessage(getLength(Object.values(message).filter(v => v.channel_id === tmp_active_chat_id).map(v => v.id)) + 1, e.target.value, "", tmp_active_chat_id, "N");
                       let msg = new Message(user.id, null, e.target.value);
                       sendMessage(active_chat_id, msg, encKey);
                     } else {
 
                       for (let i = 0; i < sendList.length; i++) {
+                        //setEncKey( " Work 1 ")
                         addMessage(getLength(Object.values(message).filter(v => v.channel_id === tmp_active_chat_id).map(v => v.id)) + 1, e.target.value, sendList[i].obj.anid, sendList[i].obj.acid, i);
                         let msg = new Message(user.id, sendList[i].obj.anid, e.target.value);
                         sendMessage(sendList[i].obj.acid, msg, sendList[i].obj.encKey);
@@ -663,8 +664,8 @@ function Messages(props) {
 export default connect(
   store => ({
     message: store.msi, channels: store.data.channels,
-    user: store.data.user, users: store.data.users, active_chat_id: store.state.active_chat_id, encKey: store.encKey,
-    tabs: store.state.activeTabs, activeTab: store.state.activeTab
+    user: store.data.user, users: store.data.users, active_chat_id: store.state.active_chat_id, encKey: store.keyLace.encKey,
+    tabs: store.state.activeTabs, activeTab: store.state.activeTab,
   }),
-  { addMessage, addTab, deleteTab, selectTab, selectActiveChatId }
+  { addMessage, addTab, deleteTab, selectTab, selectActiveChatId, setEncKey }
 )(Messages)

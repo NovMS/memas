@@ -91,3 +91,10 @@ export const replaceChannels = (myChannelSet) => {
         mySet : myChannelSet,
     };
 }
+
+export const setEncKey = ( encKey ) => {
+  return {
+    type : "setEncKey",
+    encKey : encKey,
+  }
+}

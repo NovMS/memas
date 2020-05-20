@@ -40,6 +40,9 @@ const store = createStore(reducer,
             activeTabs : new Set(),
             activeTab : 0,
             active_users: new Set()
+        },
+        keyLace:{
+            encKey: "null",
         }
     }
     );
