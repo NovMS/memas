@@ -218,6 +218,11 @@ function ChannelForm(props) {
   const tmpSetB = new Set();
   const tmpSetC = new Set();
 
+  console.log("BETWENN")
+  console.log(channels)
+  console.log("SEE")
+  console.log(tmpCh)
+
   Object.entries(channels).forEach(([k, v]) => {
     if (v.parent_id) {
       FatherChannelIds.add(v.parent_id);
@@ -304,6 +309,8 @@ function ChannelForm(props) {
 
       const v = channels[id];
 
+      console.log( "ID" + id )
+
       if (openNum === 1) {
         v.is_showed = v.is_showedALL
       }
@@ -386,9 +393,7 @@ function ChannelForm(props) {
       tabs.forEach(el => {
         tmpUseTabs.add(el.id)
       });
-      //console.log(tmpUseTabs);
-
-      //onDoubleClick={ e => addChannel("*"+v.name , id, moment().toISOString())}>
+    
 
       list.push(<ListItem autoFocus={v.is_focus}>
         <Box mr={1}>
@@ -689,45 +694,6 @@ function ChannelForm(props) {
           <Box mt={-1} px={2} mb={0.5} ml={-2}>
             <ThemeProvider theme={MyTheme}>
               <ThemeProvider theme={MyThemeB}>
-                <Button onClick={(e) => {
-                  setReload(!reload);
-                  console.log("CONSOLE LOG: v");
-                  console.log(tmpCh);
-                  console.log("CONSOLE LOG: ^");
-                }}>
-                  ReLoad
-                </Button>
-                <Button onClick={(e) => {
-                  setReload(!reload);
-                  function formatMessages(messages) {
-                    for (let prop in messages) {
-                      let date = new Date(messages[prop].date_time);
-                      messages[prop].date = { "d": date.getDate(), "m": date.getMonth() + 1, "y": date.getFullYear() };
-                      messages[prop].time = { "h": date.getHours(), "m": date.getMinutes(), "s": date.getSeconds() };
-                      messages[prop].text = messages[prop]._text;
-                    }
-                  }
-                  async function myChannels() {
-                    let queryService = new QueryService();
-                    console.log("v ==== replaceChannels: ==== v");
-                    replaceChannels(await queryService.getResource('/badapi/users/1/channels'));
-                    console.log("^ ==== replaceChannels: ==== ^");
-                  }
-                  async function myMessages() {
-                    console.log("v ==== replaceMessages: ==== v");
-                    let queryService = new QueryService();
-                    let messages = await queryService.getResource('/badapi/channels/1/messages')
-                    formatMessages(messages);
-                    replaceMessages(messages);
-                    console.log("^ ==== replaceMessages: ==== ^");
-                  }
-                  console.log(" KEYYY ::: ")
-                  console.log( encKey )
-                  myChannels();
-                  myMessages();
-                }}>
-                  Update
-                </Button>
                 <Button variant="contained" color={pickB1} onClick={activate1} className={classes.MyButtonAll}>
                   ALL
                 </Button>
@@ -797,7 +763,7 @@ function ChannelForm(props) {
 }
 
 ///
-export default connect(store => ({ channels: store.channelsXPEHb, tmpCh: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab , encKey : store.keyLace.encKey}), {
+export default connect(store => ({ channels: store.data.channels, tmpCh: store.channelsXPEHb, active_chat_id: store.state.active_chat_id, tabs: store.state.activeTabs, activeTab: store.state.activeTab , encKey : store.keyLace.encKey}), {
   selectActiveChatId,
   showChannel,
   hideChannel,
